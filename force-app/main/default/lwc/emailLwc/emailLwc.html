@@ -1,0 +1,179 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <article class="slds-card">
+        <!-- Alert -->
+        <div if:true={noEmailError} class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+            <span class="slds-assistive-text">error</span>
+            <span
+                class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
+                title="Description of icon when needed"
+            >
+                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+                </svg>
+            </span>
+            <h2>
+                Please add a recepient
+            </h2>
+            <div class="slds-notify__close">
+                <button
+                    class="slds-button slds-button_icon slds-button_icon-small slds-button_icon-inverse"
+                    title="Close"
+                >
+                    <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </div>
+        </div>
+        <!-- Alert -->
+        <!-- Alert -->
+        <div if:true={invalidEmails} class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+            <span class="slds-assistive-text">error</span>
+            <span
+                class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
+                title="Description of icon when needed"
+            >
+                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+                </svg>
+            </span>
+            <h2>
+                Some of the emails added are invalid
+            </h2>
+            <div class="slds-notify__close">
+                <button
+                    class="slds-button slds-button_icon slds-button_icon-small slds-button_icon-inverse"
+                    title="Close"
+                >
+                    <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </div>
+        </div>
+        <!-- Alert -->
+        <div class="slds-card__body slds-card__body_inner">
+            <!-- Body -->
+            <div class="slds-form form slds-var-p-top_small">
+                <div class="slds-form-element slds-form-element_horizontal slds-form-element_1-col">
+                    <label class="slds-form-element__label" for="to">To</label>
+                    <div class="slds-form-element__control">
+                        <c-email-input onselection={handleToAddressChange}></c-email-input>
+                    </div>
+                </div>
+
+                <div class="slds-form-element slds-form-element_horizontal slds-form-element_1-col">
+                    <label class="slds-form-element__label" for="cc">Cc</label>
+                    <div class="slds-form-element__control">
+                        <c-email-input onselection={handleCcAddressChange}></c-email-input>
+                    </div>
+                </div>
+
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="subject"> </label>
+                    <div class="slds-form-element__control">
+                        <input
+                            type="text"
+                            name="subject"
+                            id="subject"
+                            value={subject}
+                            placeholder="Subject..."
+                            class="slds-input"
+                            onchange={handleSubjectChange}
+                        />
+                    </div>
+                </div>
+
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-var-p-top_small">
+                        <lightning-input-rich-text value={body} onchange={handleBodyChange}></lightning-input-rich-text>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-var-p-around_medium">
+            <template for:each={files} for:item="file" for:index="index">
+                <lightning-pill
+                    key={file.contentVersionId}
+                    label={file.name}
+                    onremove={handleRemove}
+                    data-id={file.contentVersionId}
+                    data-index={index}
+                >
+                    <lightning-icon
+                        icon-name="doctype:attachment"
+                        size="xx-small"
+                        alternative-text="attach"
+                    ></lightning-icon>
+                </lightning-pill>
+            </template>
+        </div>
+        <div class="slds-grid slds-grid_align-end slds-var-p-around_x-small">
+            <div class="slds-col slds-var-p-right_x-small slds-var-p-bottom_x-small slds-is-relative">
+                <!-- Pop over -->
+                <section
+                    if:true={wantToUploadFile}
+                    aria-describedby="dialog-body-id-108"
+                    aria-labelledby="dialog-heading-id-3"
+                    class="slds-popover slds-popover_walkthrough slds-nubbin_bottom slds-is-absolute popover"
+                    role="dialog"
+                >
+                    <button
+                        class="
+                            slds-button slds-button_icon slds-button_icon-small
+                            slds-float_right
+                            slds-popover__close
+                            slds-button_icon-inverse
+                        "
+                        title="Close dialog"
+                    >
+                        <lightning-button-icon
+                            variant="bare-inverse"
+                            size="small"
+                            onclick={toggleFileUpload}
+                            icon-name="utility:close"
+                            alternative-text="close"
+                        ></lightning-button-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <header class="slds-popover__header slds-p-vertical_medium">
+                        <h2 id="dialog-heading-id-3" class="slds-text-heading_medium">Upload Files</h2>
+                    </header>
+                    <div class="slds-popover__body" id="dialog-body-id-108">
+                        <lightning-file-upload
+                            label="Attach files"
+                            name="fileUploader"
+                            accept={acceptedFormats}
+                            record-id={myRecordId}
+                            onuploadfinished={handleUploadFinished}
+                            multiple
+                        >
+                        </lightning-file-upload>
+                    </div>
+                </section>
+                <!-- Pop over -->
+                <lightning-button-icon
+                    icon-name="utility:attach"
+                    onclick={toggleFileUpload}
+                    alternative-text="Attach File"
+                    title="Attach_File"
+                >
+                </lightning-button-icon>
+            </div>
+            <div class="slds-col slds-var-p-right_x-small slds-var-p-bottom_x-small">
+                <lightning-button label="Reset" title="reset" onclick={handleReset}></lightning-button>
+            </div>
+            <div class="slds-col slds-var-p-right_x-small slds-var-p-bottom_x-small">
+                <lightning-button
+                    variant="brand"
+                    label="Send"
+                    title="send"
+                    onclick={handleSendEmail}
+                ></lightning-button>
+            </div>
+        </div>
+    </article>
+</template>

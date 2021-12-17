@@ -1,0 +1,74 @@
+<template>
+    <div class="slds-combobox_container">
+        <div class={boxClass}>
+            <div class="slds-combobox__form-element slds-has-focus">
+                <template for:each={selectedValues} for:item="selectedValue" for:index="index">
+                    <lightning-pill
+                        key={selectedValue}
+                        label={selectedValue}
+                        onremove={handleRemove}
+                        data-index={index}
+                    ></lightning-pill>
+                </template>
+                <!-- sldsValidatorIgnoreNextLine -->
+                <input
+                    type="text"
+                    id="to"
+                    class="input"
+                    required
+                    onkeyup={handleInputChange}
+                    onkeypress={handleKeyPress}
+                    onblur={handleBlur}
+                />
+            </div>
+            <!-- List Start -->
+            <div
+                id="listbox-id-3"
+                class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                role="listbox"
+                if:true={hasItems}
+            >
+                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                    <template for:each={items} for:item="item" for:index="index">
+                        <li
+                            key={item.Id}
+                            data-id={item.Id}
+                            onclick={onSelect}
+                            role="presentation"
+                            class="slds-listbox__item"
+                        >
+                            <div
+                                aria-selected="true"
+                                class="
+                                    slds-media
+                                    slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta
+                                "
+                                role="option"
+                                tabindex="0"
+                            >
+                                <span class="slds-media__figure slds-listbox__option-icon">
+                                    <span class="slds-icon_container slds-icon-standard-account">
+                                        <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                            <use
+                                                xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"
+                                            ></use>
+                                        </svg>
+                                    </span>
+                                </span>
+                                <span class="slds-media__body">
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity"
+                                        >{item.Name}</span
+                                    >
+                                    <span class="slds-listbox__option-meta slds-listbox__option-meta_entity"
+                                        >{item.Email}</span
+                                    >
+                                </span>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+            <!-- List End -->
+        </div>
+    </div>
+</template>

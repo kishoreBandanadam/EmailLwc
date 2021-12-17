@@ -1,0 +1,10 @@
+  .CLASSIC {
+    min-width: 66rem;
+  }
+  .LARGE {
+    min-width: 40rem;
+  }
+  .SMALL {
+    min-width: 15rem;
+  }
+  
