@@ -15,7 +15,6 @@ public with sharing class EmailClass {
             for (List<SObject> curList : searchResult) {
                 searchList.addAll(curList);
             }
-            system.debug('searchList:::' + searchList.size());
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
