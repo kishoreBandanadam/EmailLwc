@@ -87,7 +87,6 @@ export default class LookupLwc extends LightningElement {
             }
         }
 
-        console.log("In rendered", this.objName);
     }
 
     //Used for creating Record Start
@@ -98,13 +97,10 @@ export default class LookupLwc extends LightningElement {
             this.error = undefined;
 
             let recordTypeInfos = Object.entries(this.record.recordTypeInfos);
-            console.log("ObjectInfo length", recordTypeInfos.length);
             if (recordTypeInfos.length > 1) {
                 let temp = [];
                 recordTypeInfos.forEach(([key, value]) => {
-                    console.log(key);
                     if (value.available === true && value.master !== true) {
-                        console.log("Inside ifff", JSON.stringify(key, value));
 
                         temp.push({
                             label: value.name,
@@ -120,10 +116,6 @@ export default class LookupLwc extends LightningElement {
                 this.recordTypeId = this.record.defaultRecordTypeId;
             }
 
-            console.log(
-                "this.recordTypeOptions",
-                JSON.stringify(this.recordTypeOptions)
-            );
         } else if (error) {
             this.error = error;
             this.record = undefined;
