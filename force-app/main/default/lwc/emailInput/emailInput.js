@@ -31,7 +31,6 @@ export default class EmailInput extends LightningElement {
 
         search({ searchString: event.target.value })
             .then((result) => {
-                console.log("Result", result);
                 this.items = result;
                 if (this.items.length > 0) {
                     this.boxClass =
@@ -53,8 +52,6 @@ export default class EmailInput extends LightningElement {
                 this.selectedValuesMap.set(value, value);
                 this.selectedValues = [...this.selectedValuesMap.keys()];
             }
-
-            console.log("this.selectedValues***", this.selectedValues);
             this.template.querySelector('input.input').value = "";
         }, 300);
     }
@@ -78,17 +75,14 @@ export default class EmailInput extends LightningElement {
 
     handleRemove(event) {
         const item = event.target.label;
-        console.log("item", item);
         this.selectedValuesMap.delete(item);
         this.selectedValues = [...this.selectedValuesMap.keys()];
     }
 
     onSelect(event) {
         this.template.querySelector('input.input').value = "";
-        console.log("In onSelect");
         let ele = event.currentTarget;
         let selectedId = ele.dataset.id;
-        console.log("selectedId", selectedId);
         let selectedValue = this.items.find((record) => record.Id === selectedId);
         this.selectedValuesMap.set(selectedValue.Email, selectedValue.Name);
         this.selectedValues = [...this.selectedValuesMap.keys()];
