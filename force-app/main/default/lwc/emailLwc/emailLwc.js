@@ -25,7 +25,6 @@ export default class EmailLwc extends LightningElement {
 
     handleUploadFinished(event) {
         const uploadedFiles = event.detail.files;
-        console.log("uploadedFiles", uploadedFiles);
         this.files = [...this.files, ...uploadedFiles];
         this.wantToUploadFile = false;
     }
@@ -52,12 +51,9 @@ export default class EmailLwc extends LightningElement {
     }
 
     validateEmails(emailAddressList) {
-        console.log("emailAddressList", emailAddressList);
         let areEmailsValid;
         if(emailAddressList.length > 1) {
             areEmailsValid = emailAddressList.reduce((accumulator, next) => {
-                console.log("acc", accumulator);
-                console.log("next", next);
                 const isValid = this.validateEmail(next);
                 return accumulator && isValid;
             });
@@ -65,15 +61,11 @@ export default class EmailLwc extends LightningElement {
         else if(emailAddressList.length > 0) {
             areEmailsValid = this.validateEmail(emailAddressList[0]);
         }
-
-        console.log("areEmailsValid", areEmailsValid);
         return areEmailsValid;
     }
 
     validateEmail(email) {
-        console.log("In VE");
         const res = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()s[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        console.log("res", res);
         return res.test(String(email).toLowerCase());
     }
 
@@ -95,12 +87,9 @@ export default class EmailLwc extends LightningElement {
         }
         
         if (!this.validateEmails([...this.toAddress, ...this.ccAddress])) {
-            console.log("Some of the emails are invalid");
             this.invalidEmails = true;
             return;
         }
-
-        console.log("Emails are valid");
 
         let emailDetails = {
             toAddress: this.toAddress,
@@ -108,7 +97,6 @@ export default class EmailLwc extends LightningElement {
             subject: this.subject,
             body: this.body
         };
-        console.log("emailDetails", emailDetails);
 
         sendEmailController({ emailDetailStr: JSON.stringify(emailDetails) })
             .then(() => {
