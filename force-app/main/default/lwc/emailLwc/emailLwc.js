@@ -78,6 +78,14 @@ export default class EmailLwc extends LightningElement {
         this.template.querySelectorAll("c-email-input").forEach((input) => input.reset());
     }
 
+    getFilesContentVersionId(){
+        let contentVersionIdList = []
+        this.files.forEach(element => {
+            contentVersionIdList.push(element.contentVersionId);
+        });
+        return contentVersionIdList;
+    }
+    
     handleSendEmail() {
         this.noEmailError = false;
         this.invalidEmails = false;
@@ -95,7 +103,8 @@ export default class EmailLwc extends LightningElement {
             toAddress: this.toAddress,
             ccAddress: this.ccAddress,
             subject: this.subject,
-            body: this.body
+            body: this.body,
+            files: this.getFilesContentVersionId()
         };
 
         sendEmailController({ emailDetailStr: JSON.stringify(emailDetails) })
